@@ -6,16 +6,17 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.property.R
-import com.property.adapter.ListPropertyAdapter
+import com.property.adapter.GridPropertyAdapter
 import com.property.databinding.ActivityAllHousePropertyBinding
 import com.property.viewModel.AllHouseViewModel
 
 class AllHousePropertyActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityAllHousePropertyBinding
-    private lateinit var listPropertyAdapter: ListPropertyAdapter
+    private lateinit var gridPropertyAdapter: GridPropertyAdapter
     lateinit var allHouseViewModel: AllHouseViewModel
     private var isLoading: Boolean = false
     private val TAG = javaClass.simpleName
@@ -37,11 +38,11 @@ class AllHousePropertyActivity : AppCompatActivity(), View.OnClickListener {
         binding.toolbar.tvToolbar.text = "Perumahan"
 
         binding.rvAllHouse.setHasFixedSize(true)
-        listPropertyAdapter = ListPropertyAdapter()
-        listPropertyAdapter.notifyDataSetChanged()
+        gridPropertyAdapter = GridPropertyAdapter()
+        gridPropertyAdapter.notifyDataSetChanged()
 
-        binding.rvAllHouse.layoutManager = LinearLayoutManager(this)
-        binding.rvAllHouse.adapter = listPropertyAdapter
+        binding.rvAllHouse.layoutManager = GridLayoutManager(this, 2)
+        binding.rvAllHouse.adapter = gridPropertyAdapter
 
     }
 
@@ -53,7 +54,7 @@ class AllHousePropertyActivity : AppCompatActivity(), View.OnClickListener {
 
         allHouseViewModel.getProperty().observe(this, Observer { property ->
             if (property.isNotEmpty()) {
-                listPropertyAdapter.setData(property)
+                gridPropertyAdapter.setData(property)
                 hideLoading()
             }
         })
@@ -68,15 +69,15 @@ class AllHousePropertyActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initListener() {
         binding.swLayout.post {
-            showLoading(true)
+            showLoading()
             allHouseViewModel.setProperty(page)
 
         }
 
         binding.swLayout.setOnRefreshListener {
             page = 1
-            showLoading(true)
-            listPropertyAdapter.clearData()
+            showLoading()
+            gridPropertyAdapter.clearData()
             allHouseViewModel.setProperty(page)
         }
 
@@ -107,7 +108,7 @@ class AllHousePropertyActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun showLoading(isRefresh: Boolean) {
+    private fun showLoading() {
         isLoading = true
         binding.shimmerProperty.startShimmerAnimation()
     }
