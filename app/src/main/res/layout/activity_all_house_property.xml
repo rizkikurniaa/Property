@@ -41,6 +41,8 @@
                     android:orientation="vertical">
 
                     <include layout="@layout/shimmer_property" />
+                    <include layout="@layout/shimmer_property" />
+                    <include layout="@layout/shimmer_property" />
 
                 </LinearLayout>
 
