@@ -58,7 +58,7 @@ class HomeViewModel: ViewModel() {
 
     fun setProperty() {
         val property = ArrayList<DataProperty>()
-        AndroidNetworking.get(link + "getProperti.php?per_page=5")
+        AndroidNetworking.get(link + "getProperti.php?per_page=6")
             .setPriority(Priority.HIGH)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -74,8 +74,10 @@ class HomeViewModel: ViewModel() {
                                 propertyItems.idProperty = data.getString("id_properti")
                                 propertyItems.propertyName = data.getString("nama_properti")
                                 propertyItems.location = data.getString("lokasi")
+                                propertyItems.subDistrict = data.getString("nama_daerah")
                                 propertyItems.bedRoomQty = data.getString("kamar_tidur")
                                 propertyItems.bathRoomQty = data.getString("kamar_mandi")
+                                propertyItems.areaWide = data.getString("luas")
                                 propertyItems.investmentCapital = data.getString("modal_investasi")
                                 propertyItems.price = data.getString("harga_jual")
                                 propertyItems.installment = data.getString("besar_angsuran")
@@ -94,7 +96,7 @@ class HomeViewModel: ViewModel() {
                 }
 
                 override fun onError(error: ANError) {
-                    Log.d("Error Slider", "onError: $error")
+                    Log.d("Error Property", "onError: $error")
                 }
             })
     }
