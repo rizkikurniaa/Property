@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.property.R
 import com.property.activity.AllHousePropertyActivity
-import com.property.adapter.ListPropertyAdapter
+import com.property.adapter.GridPropertyAdapter
 import com.property.adapter.SliderHomeAdapter
 import com.property.databinding.FragmentHomeBinding
 import com.property.method.CirclePagerIndicatorDecoration
-import com.property.viewModel.AllHouseViewModel
 import com.property.viewModel.HomeViewModel
 import java.util.*
 
@@ -26,7 +25,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val binding get() = _binding!!
 
     private lateinit var sliderHomeAdapter: SliderHomeAdapter
-    private lateinit var listPropertyAdapter: ListPropertyAdapter
+    private lateinit var gridPropertyAdapter: GridPropertyAdapter
     lateinit var homeViewModel: HomeViewModel
     val time = 3000
 
@@ -54,11 +53,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         sliderHomeAdapter.notifyDataSetChanged()
 
         binding.rvProperty.setHasFixedSize(true)
-        listPropertyAdapter = ListPropertyAdapter()
-        listPropertyAdapter.notifyDataSetChanged()
+        gridPropertyAdapter = GridPropertyAdapter()
+        gridPropertyAdapter.notifyDataSetChanged()
 
-        binding.rvProperty.layoutManager = LinearLayoutManager(context)
-        binding.rvProperty.adapter = listPropertyAdapter
+        binding.rvProperty.layoutManager = GridLayoutManager(context, 2)
+        binding.rvProperty.adapter = gridPropertyAdapter
 
         val linearLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -98,17 +97,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
         homeViewModel.getSlider().observe(viewLifecycleOwner, Observer { slider ->
             if (slider.isNotEmpty()) {
                 sliderHomeAdapter.setData(slider)
-                binding.shimmerSlider.stopShimmerAnimation()
-                binding.shimmerSlider.visibility = View.GONE
                 showLoading(false)
             }
         })
 
         homeViewModel.getProperty().observe(viewLifecycleOwner, Observer { property ->
             if (property.isNotEmpty()){
-                listPropertyAdapter.setData(property)
-                binding.shimmerProperty.stopShimmerAnimation()
-                binding.shimmerProperty.visibility = View.GONE
+                gridPropertyAdapter.setData(property)
                 showLoading(false)
             }
         })
@@ -118,8 +113,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         binding.tvLihatRumah.setOnClickListener(this)
         binding.swLayout.post {
             showLoading(true)
-            binding.shimmerSlider.startShimmerAnimation()
-            binding.shimmerProperty.startShimmerAnimation()
             homeViewModel.setSlider()
             homeViewModel.setProperty()
 
@@ -127,8 +120,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         binding.swLayout.setOnRefreshListener {
             showLoading(true)
-            binding.shimmerSlider.startShimmerAnimation()
-            binding.shimmerProperty.startShimmerAnimation()
+            gridPropertyAdapter.clearData()
             homeViewModel.setSlider()
             homeViewModel.setProperty()
         }
@@ -136,6 +128,20 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun showLoading(state: Boolean) {
         binding.swLayout.isRefreshing = state
+
+        if (state){
+
+            binding.shimmerSlider.startShimmerAnimation()
+            binding.shimmerProperty.startShimmerAnimation()
+
+        }else{
+
+            binding.shimmerSlider.stopShimmerAnimation()
+            binding.shimmerProperty.stopShimmerAnimation()
+            binding.shimmerSlider.visibility = View.GONE
+            binding.shimmerProperty.visibility = View.GONE
+
+        }
     }
 
     override fun onClick(v: View?) {
