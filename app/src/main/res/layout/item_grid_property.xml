@@ -26,27 +26,42 @@
 
         <TextView
             android:id="@+id/tv_property_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textColor="@color/yellow"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_property"
             tools:text="Tipe 45/84" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="12sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="@+id/tv_installment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_property_name"
+            tools:text="Limau manis (rindang alam)" />
 
         <TextView
             android:id="@+id/tv_installment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
+            android:textColor="@color/yellow"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/tv_property_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_property_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location"
             tools:text="IDR 2.000.000 " />
 
         <TextView
@@ -57,15 +72,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/tv_installment"
             app:layout_constraintStart_toEndOf="@+id/tv_installment"
             app:layout_constraintTop_toTopOf="@+id/tv_installment" />
-
-        <TextView
-            android:id="@+id/tv_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_installment"
-            app:layout_constraintTop_toBottomOf="@+id/tv_installment"
-            tools:text="Limau manis (rindang alam)" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
