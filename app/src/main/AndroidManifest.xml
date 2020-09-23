@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.AllHousePropertyActivity"></activity>
+        <activity android:name=".activity.DetailPropertyActivity"></activity>
+        <activity android:name=".activity.AllHousePropertyActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
