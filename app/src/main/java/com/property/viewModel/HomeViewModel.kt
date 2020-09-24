@@ -20,6 +20,7 @@ class HomeViewModel: ViewModel() {
     private val link: String = BuildConfig.BASE_API
     private val listSlider = MutableLiveData<ArrayList<DataSlider>>()
     private val listProperty = MutableLiveData<ArrayList<DataProperty>>()
+    private val listInvest = MutableLiveData<ArrayList<DataProperty>>()
 
     fun setSlider() {
         val slider = ArrayList<DataSlider>()
@@ -58,7 +59,7 @@ class HomeViewModel: ViewModel() {
 
     fun setProperty() {
         val property = ArrayList<DataProperty>()
-        AndroidNetworking.get(link + "getProperti.php?per_page=6")
+        AndroidNetworking.get(link + "getProperti.php?per_page=4")
             .setPriority(Priority.HIGH)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -84,6 +85,7 @@ class HomeViewModel: ViewModel() {
                                 propertyItems.longInstallments = data.getString("lama_angsuran")
                                 propertyItems.propertyImg = data.getString("gambar_properti")
                                 propertyItems.desc = data.getString("deskripsi")
+                                propertyItems.totalInvest = data.getString("total_investasi")
                                 property.add(propertyItems)
                             }
 
@@ -101,11 +103,61 @@ class HomeViewModel: ViewModel() {
             })
     }
 
+    fun setInvest() {
+        val invest = ArrayList<DataProperty>()
+        AndroidNetworking.get(link + "getProperti.php?per_page=4&sort=asc")
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONObject(object : JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    Log.d("Success invest", "onResponse: $response")
+                    run {
+                        try {
+                            val datalist = response.getJSONArray("data")
+                            for (i in 0 until datalist.length()) {
+                                val data = datalist.getJSONObject(i)
+                                val propertyItems = DataProperty()
+
+                                propertyItems.idProperty = data.getString("id_properti")
+                                propertyItems.propertyName = data.getString("nama_properti")
+                                propertyItems.location = data.getString("lokasi")
+                                propertyItems.subDistrict = data.getString("nama_daerah")
+                                propertyItems.bedRoomQty = data.getString("kamar_tidur")
+                                propertyItems.bathRoomQty = data.getString("kamar_mandi")
+                                propertyItems.areaWide = data.getString("luas")
+                                propertyItems.investmentCapital = data.getString("modal_investasi")
+                                propertyItems.price = data.getString("harga_jual")
+                                propertyItems.installment = data.getString("besar_angsuran")
+                                propertyItems.longInstallments = data.getString("lama_angsuran")
+                                propertyItems.propertyImg = data.getString("gambar_properti")
+                                propertyItems.desc = data.getString("deskripsi")
+                                propertyItems.totalInvest = data.getString("total_investasi")
+                                invest.add(propertyItems)
+                            }
+
+                            listInvest.postValue(invest)
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                override fun onError(error: ANError) {
+                    Log.d("Error Invest", "onError: $error")
+                }
+            })
+    }
+
     fun getSlider(): LiveData<ArrayList<DataSlider>> {
         return listSlider
     }
 
     fun getProperty(): LiveData<ArrayList<DataProperty>> {
         return listProperty
+    }
+
+    fun getInvest(): LiveData<ArrayList<DataProperty>> {
+        return listInvest
     }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.property.R
 import com.property.activity.AllHousePropertyActivity
+import com.property.adapter.GridInvestAdapter
 import com.property.adapter.GridPropertyAdapter
 import com.property.adapter.SliderHomeAdapter
 import com.property.databinding.FragmentHomeBinding
@@ -26,6 +27,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private lateinit var sliderHomeAdapter: SliderHomeAdapter
     private lateinit var gridPropertyAdapter: GridPropertyAdapter
+    private lateinit var gridInvestAdapter: GridInvestAdapter
     lateinit var homeViewModel: HomeViewModel
     val time = 3000
 
@@ -47,17 +49,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initView() {
-
+        //slider
         binding.rvSlider.setHasFixedSize(true)
         sliderHomeAdapter = SliderHomeAdapter()
         sliderHomeAdapter.notifyDataSetChanged()
-
-        binding.rvProperty.setHasFixedSize(true)
-        gridPropertyAdapter = GridPropertyAdapter()
-        gridPropertyAdapter.notifyDataSetChanged()
-
-        binding.rvProperty.layoutManager = GridLayoutManager(context, 2)
-        binding.rvProperty.adapter = gridPropertyAdapter
 
         val linearLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -86,6 +81,23 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
         }, 0, time.toLong())
 
+        //recycler property
+        binding.rvProperty.setHasFixedSize(true)
+        gridPropertyAdapter = GridPropertyAdapter()
+        gridPropertyAdapter.notifyDataSetChanged()
+
+        binding.rvProperty.layoutManager = GridLayoutManager(context, 2)
+        binding.rvProperty.adapter = gridPropertyAdapter
+
+        //recycler invest
+        binding.rvInvest.setHasFixedSize(true)
+        gridInvestAdapter = GridInvestAdapter()
+        gridInvestAdapter.notifyDataSetChanged()
+
+        binding.rvInvest.layoutManager = GridLayoutManager(context, 2)
+        binding.rvInvest.adapter = gridInvestAdapter
+
+
     }
 
     private fun initViewModel() {
@@ -107,6 +119,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 showLoading(false)
             }
         })
+
+        homeViewModel.getInvest().observe(viewLifecycleOwner, Observer { invest ->
+            if (invest.isNotEmpty()){
+                gridInvestAdapter.setData(invest)
+                showLoading(false)
+            }
+        })
     }
 
     private fun initListener() {
@@ -115,14 +134,17 @@ class HomeFragment : Fragment(), View.OnClickListener {
             showLoading(true)
             homeViewModel.setSlider()
             homeViewModel.setProperty()
+            homeViewModel.setInvest()
 
         }
 
         binding.swLayout.setOnRefreshListener {
             showLoading(true)
             gridPropertyAdapter.clearData()
+            gridInvestAdapter.clearData()
             homeViewModel.setSlider()
             homeViewModel.setProperty()
+            homeViewModel.setInvest()
         }
     }
 
@@ -133,13 +155,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
             binding.shimmerSlider.startShimmerAnimation()
             binding.shimmerProperty.startShimmerAnimation()
+            binding.shimmerInvest.startShimmerAnimation()
 
         }else{
 
             binding.shimmerSlider.stopShimmerAnimation()
             binding.shimmerProperty.stopShimmerAnimation()
+            binding.shimmerInvest.stopShimmerAnimation()
             binding.shimmerSlider.visibility = View.GONE
             binding.shimmerProperty.visibility = View.GONE
+            binding.shimmerInvest.visibility = View.GONE
 
         }
     }

@@ -17,10 +17,12 @@ data class DataProperty (
     var installment: String? = null,
     var longInstallments: String? = null,
     var propertyImg: String? = null,
-    var desc: String? = null
+    var desc: String? = null,
+    var totalInvest: String? = null
 
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -51,6 +53,7 @@ data class DataProperty (
         parcel.writeString(longInstallments)
         parcel.writeString(propertyImg)
         parcel.writeString(desc)
+        parcel.writeString(totalInvest)
     }
 
     override fun describeContents(): Int {
