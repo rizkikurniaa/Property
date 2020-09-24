@@ -49,6 +49,7 @@ class AllHouseViewModel: ViewModel() {
                                 propertyItems.propertyImg = data.getString("gambar_properti")
                                 propertyItems.desc = data.getString("deskripsi")
                                 propertyItems.totalInvest = data.getString("total_investasi")
+                                propertyItems.totalInvestor = data.getString("total_investor")
                                 property.add(propertyItems)
                             }
 
