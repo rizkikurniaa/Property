@@ -55,6 +55,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginTop="8dp"
                 android:src="@drawable/ic_location"
                 app:layout_constraintStart_toStartOf="@+id/tv_property_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_property_name" />
