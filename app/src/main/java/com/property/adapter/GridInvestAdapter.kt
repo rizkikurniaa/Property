@@ -1,5 +1,7 @@
 package com.property.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.iss.method.CurrencyFormatter
 import com.property.BuildConfig
 import com.property.R
+import com.property.activity.DetailInvestmentActivity
 import com.property.databinding.ItemGridInvestPropertyBinding
 import com.property.model.DataProperty
 
@@ -56,15 +59,15 @@ class GridInvestAdapter: RecyclerView.Adapter<GridInvestAdapter.GridViewHolder>(
             binding.progressBar.progress = result.toInt()
             binding.tvPercent.text = "${String.format("%.2f", result)} %"
 
-//            itemView.setOnClickListener {
-//
-//                val context: Context = it!!.context
-//                val intent = Intent(context, DetailPropertyActivity::class.java)
-//                intent.putExtra(DetailPropertyActivity.EXTRA_PROPERTY, data)
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                context.startActivity(intent)
-//
-//            }
+            itemView.setOnClickListener {
+
+                val context: Context = it!!.context
+                val intent = Intent(context, DetailInvestmentActivity::class.java)
+                intent.putExtra(DetailInvestmentActivity.EXTRA_INVESTMENT, data)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+
+            }
         }
     }
 

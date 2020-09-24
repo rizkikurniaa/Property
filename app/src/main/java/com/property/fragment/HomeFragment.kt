@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.property.R
 import com.property.activity.AllHousePropertyActivity
+import com.property.activity.AllInvestmentActivity
 import com.property.adapter.GridInvestAdapter
 import com.property.adapter.GridPropertyAdapter
 import com.property.adapter.SliderHomeAdapter
@@ -130,6 +131,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun initListener() {
         binding.tvLihatRumah.setOnClickListener(this)
+        binding.tvSeeInvest.setOnClickListener(this)
         binding.swLayout.post {
             showLoading(true)
             homeViewModel.setSlider()
@@ -173,6 +175,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.tv_lihat_rumah -> {
                 val intent = Intent(context, AllHousePropertyActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context!!.startActivity(intent)
+            }
+            R.id.tv_see_invest -> {
+                val intent = Intent(context, AllInvestmentActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context!!.startActivity(intent)
             }
