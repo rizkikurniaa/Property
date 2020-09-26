@@ -362,7 +362,7 @@
             android:paddingTop="7dp"
             android:paddingRight="15dp"
             android:paddingBottom="7dp"
-            android:text="Pesan rumah"
+            android:text="Investasi"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
