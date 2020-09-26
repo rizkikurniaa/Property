@@ -7,22 +7,31 @@ import androidx.lifecycle.ViewModel
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.property.BuildConfig
 import com.property.model.DataProperty
+import com.property.model.DataSubDistrict
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class AllHouseViewModel: ViewModel() {
+class AllHouseViewModel : ViewModel() {
     private val link: String = BuildConfig.BASE_API
     private val listProperty = MutableLiveData<ArrayList<DataProperty>>()
+    private val listSubDistrict = MutableLiveData<ArrayList<DataSubDistrict>>()
     private val totPage = MutableLiveData<Int>()
 
-    fun setProperty(page: Int) {
+    fun setProperty(subDistrict: String, page: Int) {
         val property = ArrayList<DataProperty>()
         var totalPage: Int
+        var linkProperty: String = if (subDistrict == "All") {
+            link + "getProperti.php?page=$page"
+        } else {
+            link + "getProperti.php?cari_daerah=$subDistrict&page=$page"
+        }
 
-        AndroidNetworking.get(link + "getProperti.php?page=$page")
+        AndroidNetworking.get(linkProperty)
             .setPriority(Priority.HIGH)
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -69,8 +78,48 @@ class AllHouseViewModel: ViewModel() {
             })
     }
 
+    fun setSubDistrict() {
+        val subDistrict = ArrayList<DataSubDistrict>()
+
+        AndroidNetworking.get(link + "getDaerah.php")
+            .setPriority(Priority.HIGH)
+            .build()
+            .getAsJSONArray(object : JSONArrayRequestListener {
+                override fun onResponse(response: JSONArray) {
+                    Log.d("Success Subdistrict", "onResponse: $response")
+                    run {
+                        try {
+                            for (i in 0 until response.length()) {
+                                val data = response.getJSONObject(i)
+                                val subDistrictItems = DataSubDistrict()
+
+                                subDistrictItems.idSubDistrict = data.getString("id_daerah")
+                                subDistrictItems.subDistrict = data.getString("nama_daerah")
+                                subDistrict.add(subDistrictItems)
+
+                            }
+
+                            listSubDistrict.postValue(subDistrict)
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+
+                override fun onError(error: ANError) {
+                    Log.d("Error Subdistrict", "onError: $error")
+                }
+            })
+    }
+
+
     fun getProperty(): LiveData<ArrayList<DataProperty>> {
         return listProperty
+    }
+
+    fun getSubDistrict(): LiveData<ArrayList<DataSubDistrict>> {
+        return listSubDistrict
     }
 
     fun getTotalPage(): LiveData<Int> {

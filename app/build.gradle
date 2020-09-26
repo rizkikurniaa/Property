@@ -18,9 +18,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_API", "\"http://192.xxx.xxx.xx/properti/api/\"")
-        buildConfigField("String", "BASE_IMG_SLIDER", "\"http://192.xxx.xxx.xx/properti/img/slider/\"")
-        buildConfigField("String", "BASE_IMG_PROPERTY", "\"http://192.xxx.xxx.xx/properti/img/properti/\"")
+        buildConfigField("String", "BASE_API", "\"http://192.168.100.49/properti/api/\"")
+        buildConfigField("String", "BASE_IMG_SLIDER", "\"http://192.168.100.49/properti/img/slider/\"")
+        buildConfigField("String", "BASE_IMG_PROPERTY", "\"http://192.168.100.49/properti/img/properti/\"")
     }
 
     buildTypes {
