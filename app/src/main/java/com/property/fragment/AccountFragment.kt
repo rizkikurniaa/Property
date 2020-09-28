@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.property.R
 import com.property.activity.LoginActivity
+import com.property.activity.MainActivity
+import com.property.activity.RegisterActivity
 import com.property.databinding.FragmentAccountBinding
 import com.property.utils.SharedPrefManager
 
@@ -48,6 +50,8 @@ class AccountFragment : Fragment(), View.OnClickListener {
 
     private fun initListener() {
         binding.layoutNotLogin.btnLogin.setOnClickListener(this)
+        binding.layoutNotLogin.btnRegister.setOnClickListener(this)
+        binding.clLogout.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -55,6 +59,17 @@ class AccountFragment : Fragment(), View.OnClickListener {
             R.id.btn_login -> {
                 val i = Intent(context, LoginActivity::class.java)
                 startActivity(i)
+            }
+            R.id.btn_register -> {
+                val i = Intent(context, RegisterActivity::class.java)
+                startActivity(i)
+            }
+            R.id.cl_logout -> {
+                sharedPrefManager.saveSPBoolean(sharedPrefManager.SP_SUDAH_LOGIN, false)
+                startActivity(
+                    Intent(context, MainActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                )
             }
         }
     }

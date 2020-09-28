@@ -10,7 +10,6 @@ class SharedPrefManager(context: Context) {
     val SP_DATA_USER = "spDataUser"
     val SP_TOKEN = "spToken"
     val SP_ID = "spId"
-    val SP_NAMA = "spNama"
     val SP_SUDAH_LOGIN = "spSudahLogin"
 
     init {
@@ -40,10 +39,6 @@ class SharedPrefManager(context: Context) {
 
     fun getSpToken(): String? {
         return sp.getString(SP_TOKEN, "")
-    }
-
-    fun getSpNama(): String? {
-        return sp.getString(SP_NAMA, "")
     }
 
     fun getSpId(): String? {

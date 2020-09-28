@@ -3,4 +3,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="oops">Oops! Anda belum login</string>
     <string name="no_data">Tidak ada properti ditemukan</string>
+    <string name="log_in">Masuk</string>
+    <string name="register">Daftar</string>
+    <string name="no_account">Belum punya akun?</string>
+    <string name="password">Kata sandi</string>
+    <string name="email_address">Alamat email</string>
+    <string name="welcome">Selamat datang</string>
 </resources>
