@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.property.R
 import com.property.activity.LoginActivity
+import com.property.activity.RegisterActivity
 import com.property.databinding.FragmentNotificationBinding
 import com.property.utils.SharedPrefManager
 
@@ -48,12 +49,17 @@ class NotificationFragment : Fragment(), View.OnClickListener {
 
     private fun initListener() {
         binding.layoutNotLogin.btnLogin.setOnClickListener(this)
+        binding.layoutNotLogin.btnRegister.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_login -> {
                 val i = Intent(context, LoginActivity::class.java)
+                startActivity(i)
+            }
+            R.id.btn_register -> {
+                val i = Intent(context, RegisterActivity::class.java)
                 startActivity(i)
             }
         }

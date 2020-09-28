@@ -29,8 +29,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var sliderHomeAdapter: SliderHomeAdapter
     private lateinit var gridPropertyAdapter: GridPropertyAdapter
     private lateinit var gridInvestAdapter: GridInvestAdapter
-    lateinit var homeViewModel: HomeViewModel
-    val time = 3000
+    private lateinit var homeViewModel: HomeViewModel
+    private val time = 3000
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,7 +97,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         binding.rvInvest.layoutManager = GridLayoutManager(context, 2)
         binding.rvInvest.adapter = gridInvestAdapter
-
 
     }
 
