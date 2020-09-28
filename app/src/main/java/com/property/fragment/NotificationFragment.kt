@@ -1,14 +1,17 @@
 package com.property.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.property.R
+import com.property.activity.LoginActivity
 import com.property.databinding.FragmentNotificationBinding
 import com.property.utils.SharedPrefManager
 
-class NotificationFragment : Fragment() {
+class NotificationFragment : Fragment(), View.OnClickListener {
     private var _binding: FragmentNotificationBinding? = null
     private val binding get() = _binding!!
 
@@ -30,6 +33,7 @@ class NotificationFragment : Fragment() {
         token = sharedPrefManager.getSpToken().toString()
 
         initView()
+        initListener()
     }
 
     private fun initView() {
@@ -39,6 +43,19 @@ class NotificationFragment : Fragment() {
         } else {
             binding.layoutNotLogin.rlNotLogin.visibility = View.GONE
             binding.nsvAccount.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initListener() {
+        binding.layoutNotLogin.btnLogin.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_login -> {
+                val i = Intent(context, LoginActivity::class.java)
+                startActivity(i)
+            }
         }
     }
 
