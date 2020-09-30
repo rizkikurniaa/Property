@@ -49,6 +49,7 @@ class NotificationFragment : Fragment(), View.OnClickListener {
 
         initView()
         initViewModel()
+        initListener()
     }
 
     private fun initView() {
@@ -65,12 +66,13 @@ class NotificationFragment : Fragment(), View.OnClickListener {
 
         if (sharedPrefManager.getSpSudahLogin() == false) {
             binding.layoutNotLogin.rlNotLogin.visibility = View.VISIBLE
+            binding.swLayout.visibility = View.GONE
             binding.rvNotification.visibility = View.GONE
         } else {
             binding.layoutNotLogin.rlNotLogin.visibility = View.GONE
+            binding.swLayout.visibility = View.VISIBLE
             binding.rvNotification.visibility = View.VISIBLE
-
-            initListener()
+            reqData()
         }
     }
 
@@ -102,7 +104,7 @@ class NotificationFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun initListener() {
+    private fun reqData() {
         binding.swLayout.post {
             showLoading(true)
             notificationViewModel.setNotification(token, page)
@@ -136,7 +138,9 @@ class NotificationFragment : Fragment(), View.OnClickListener {
                 }
             }
         })
+    }
 
+    private fun initListener() {
         binding.layoutNotLogin.btnLogin.setOnClickListener(this)
         binding.layoutNotLogin.btnRegister.setOnClickListener(this)
     }
