@@ -6,21 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.property.R
 import com.property.activity.LoginActivity
 import com.property.activity.RegisterActivity
-import com.property.adapter.GridPropertyAdapter
 import com.property.adapter.ListNotifAdapter
 import com.property.databinding.FragmentNotificationBinding
 import com.property.utils.SharedPrefManager
-import com.property.viewModel.HomeViewModel
 import com.property.viewModel.NotificationViewModel
 
 class NotificationFragment : Fragment(), View.OnClickListener {
@@ -53,12 +49,19 @@ class NotificationFragment : Fragment(), View.OnClickListener {
 
         initView()
         initViewModel()
-        initListener()
     }
 
     private fun initView() {
 
         binding.toolbarTitle.tvToolbar.text = "Notifikasi"
+
+        //recycler notif
+        binding.rvNotification.setHasFixedSize(true)
+        listNotifAdapter = ListNotifAdapter()
+        listNotifAdapter.notifyDataSetChanged()
+
+        binding.rvNotification.layoutManager = LinearLayoutManager(context)
+        binding.rvNotification.adapter = listNotifAdapter
 
         if (sharedPrefManager.getSpSudahLogin() == false) {
             binding.layoutNotLogin.rlNotLogin.visibility = View.VISIBLE
@@ -67,13 +70,7 @@ class NotificationFragment : Fragment(), View.OnClickListener {
             binding.layoutNotLogin.rlNotLogin.visibility = View.GONE
             binding.rvNotification.visibility = View.VISIBLE
 
-            //recycler notif
-            binding.rvNotification.setHasFixedSize(true)
-            listNotifAdapter = ListNotifAdapter()
-            listNotifAdapter.notifyDataSetChanged()
-
-            binding.rvNotification.layoutManager = LinearLayoutManager(context)
-            binding.rvNotification.adapter = listNotifAdapter
+            initListener()
         }
     }
 
@@ -88,7 +85,7 @@ class NotificationFragment : Fragment(), View.OnClickListener {
                 listNotifAdapter.setData(notif)
                 binding.layoutNoData.rlNoData.visibility = View.GONE
                 showLoading(false)
-            }else{
+            } else {
                 binding.layoutNoData.rlNoData.visibility = View.VISIBLE
                 binding.layoutNoData.ivNoData.setImageResource(R.drawable.ic_undraw_mailbox)
                 binding.layoutNoData.tvNoData.text = getString(R.string.no_notification)
@@ -148,9 +145,9 @@ class NotificationFragment : Fragment(), View.OnClickListener {
         binding.swLayout.isRefreshing = state
         isLoading = state
 
-        if (state){
+        if (state) {
             binding.progressBar.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.progressBar.visibility = View.GONE
         }
     }
