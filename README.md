@@ -6,5 +6,5 @@ Implemented MVVM and Load more to Property App, built with Android studio using 
 
 ## Getting Started
 - Fork or Clone the Repository
-- Get the API Key from (Soon)
+- Get the API Key from [here](https://github.com/rizkikurniaa/APIPropertyApps)
 - Give a star if this repository useful
